@@ -1,0 +1,11 @@
+<p><strong>Number of imput qubits:</strong></p>
+<input type="number" [(ngModel)]="inputQubits" />
+<p><strong>Number of output qubits:</strong></p>
+<input type="number" [(ngModel)]="outputQubits" /><br><br>
+
+<button (click)="buildMatrix()">Build Matrix</button><br><br>
+
+<table>
+    <tr *ngFor="let row of [].constructor(matrix.values.length)">
+        <td *ngFor="let cell of [].constructor(row.length)">{{cell[i][j]}}</td>
+</table>
