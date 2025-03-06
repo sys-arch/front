@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -10,6 +11,7 @@ import { NgForm } from '@angular/forms';
 
 })
 export class LoginComponent {
+  
   username: string = '';
   password: string = '';
   passwordVisible = false;
@@ -38,8 +40,8 @@ export class LoginComponent {
     'fakeinbox.com',
     'tempmailaddress.com'
   ];
-  constructor() { }
-  ngOnInit(): void {
+    constructor(private router: Router) {}
+    ngOnInit(): void {
   }
 
    // Método de inicio de sesión que llama al servicio `UserService`
@@ -133,6 +135,9 @@ export class LoginComponent {
     this.emailInvalid = false;
     this.domainInvalid = false;
     this.errorMessage = '';
+  }
+  onLogin() {
+    this.router.navigate(['/circuit']);
   }
 
 

@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule, Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CircuitComponent } from './circuit/circuit.component';
-import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HeaderComponent } from './shared/header/header.component';
@@ -18,7 +18,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    CircuitComponent
+    CircuitComponent,
     LoginComponent,
     HeaderComponent,
     FooterComponent,
