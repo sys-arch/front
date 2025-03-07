@@ -1,19 +1,18 @@
 export class Matrix {
-
     values: number[][] = [];
-    iqubits: number = 1;
-    oqubits: number = 1;
+    rows: number;
+    columns: number;
 
-    constructor(inputQubits: number, outputQubits: number) {
-        this.iqubits = Math.pow(2, inputQubits);
-        this.oqubits = inputQubits % outputQubits;
-        for (let i = 0; i < this.iqubits; i++) {
-            this.addRow(i, inputQubits, outputQubits);
+    constructor(rows: number, columns: number) {
+        this.rows = rows;
+        this.columns = columns;
 
+        for (let i = 0; i < rows; i++) {
+            this.addRow(i);
         }
     }
-    
-    addRow(i: number, inputqubits:number, ouputqubits: number) {
-        
+
+    addRow(rowIndex: number) {
+        this.values[rowIndex] = Array(this.columns).fill(0);
     }
 }

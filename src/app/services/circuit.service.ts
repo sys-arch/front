@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Matrix } from './circuit/Matrix';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Matrix } from '../circuit/Matrix';
 
 @Injectable({
   providedIn: 'root'

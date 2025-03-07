@@ -1,21 +1,22 @@
-<p><strong>Number of imput qubits:</strong></p>
+<p><strong>Number of input qubits:</strong></p>
 <input type="number" [(ngModel)]="inputQubits" />
 <p><strong>Number of output qubits:</strong></p>
 <input type="number" [(ngModel)]="outputQubits" /><br><br>
 
 <button (click)="buildMatrix()">Build Matrix</button><br><br>
 
-<table *ngIf="matrix">
+<table *ngIf="matrix" style="border-collapse: collapse;">
     <tr>
-        <td colspan="inputQubits+outputQubits">
+        <td [attr.colspan]="inputQubits + outputQubits">
             <button (click)="generatecode()">Generate Code</button>
         </td>
+    </tr>
     <tr *ngFor="let row of matrix.values; let rowNumber = index">
-        <td *ngFor="let cell of row; let colNumber = index">
-            <span *ngIf="colNumber<inputQubits" (click)="negate(rowNumber, colNumber)" style="color: blue;">
-                {{cell}}
-            </span>
-            <span *ngIf="colNumber>=inputQubits" (click)="negate(rowNumber, colNumber)" style="color: red;">
+        <td *ngFor="let cell of row; let colNumber = index"
+            style="padding: 4px; border: 1px solid #ccc; text-align: center;">
+            <span (click)="negate(rowNumber, colNumber)" 
+                [style.color]="colNumber < inputQubits ? 'blue' : 'red'"
+                style="cursor: pointer;">
                 {{cell}}
             </span>
         </td>

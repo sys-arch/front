@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { CircuitService } from '../services/circuit.service';
 import { Matrix } from './Matrix';
-import { CircuitService } from '../circuit.service';
 
 @Component({
   selector: 'app-circuit',
@@ -17,10 +17,30 @@ export class CircuitComponent {
     this.inputQubits = 3;
     this.outputQubits = 3;
   }
-  
-  buildMatrix() {
-    this.matrix = new Matrix(this.inputQubits, this.outputQubits);
+  ngOnInit(): void {
+    
   }
+  buildMatrix() {
+    const rows = Math.pow(2, this.inputQubits);
+    const columns = this.inputQubits + this.outputQubits;
+  
+    this.matrix = new Matrix(rows, columns);
+  
+    for (let i = 0; i < rows; i++) {
+      const binaryString = i.toString(2).padStart(this.inputQubits, '0');
+      
+      for (let j = 0; j < this.inputQubits; j++) {
+        this.matrix.values[i][j] = Number(binaryString[j]);
+      }
+  
+      for (let j = this.inputQubits; j < columns; j++) {
+        this.matrix.values[i][j] = 0;
+      }
+    }
+  
+    console.log("Matriz generada:", this.matrix.values);
+  }
+  
 
   negate(row: number, col: number) {
     if (this.matrix) {
