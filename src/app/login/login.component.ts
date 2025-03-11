@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../services/users.service';
 
 
 @Component({
@@ -40,7 +41,7 @@ export class LoginComponent {
     'fakeinbox.com',
     'tempmailaddress.com'
   ];
-    constructor(private router: Router) {}
+    constructor(private router: Router, private userservice: UserService) {}
     ngOnInit(): void {
   }
 
@@ -49,17 +50,37 @@ export class LoginComponent {
     this.resetValidationStates();
     this.onEmailChange();
     this.validatePassword();
-  
+
     if (!this.emailInvalid && !this.passwordInvalid && !this.domainInvalid) {
       const user = {
         email: this.username,
-        pwd: this.password,
+        pwd: this.password
       };
+  
+  
+      this.userservice.login(user).subscribe({
+        next: (response) => {
+          if (response.token) {
+            this.userservice.saveToken(response.token);
+            console.log("Token guardado en sessionStorage:", response.token);
+            this.router.navigate(['/circuit']);
+          } else {
+            this.loginFailed = true;
+            console.error('No se recibió un token de autenticación.');
+          }
+        },
+        error: (error) => {
+          console.error("Error en el login:", error);
+          this.loginFailed = true;
+        }
+      });
   
     } else {
       this.loginFailed = true;
     }
   }
+  
+  
 
   // Validar que el correo electrónico ingresado tenga un formato válido cada vez que cambie
   onEmailChange(): void {
@@ -101,18 +122,24 @@ export class LoginComponent {
 
   // Validar la seguridad de la contraseña
   validatePassword(): void {
+
     // Longitud mínima de la contraseña
     if (this.password.length < this.minPasswordLength) {
-      this.passwordInvalid = true;
-      this.errorMessage = 'La contraseña debe tener al menos 8 caracteres.';
+        this.passwordInvalid = true;
+        this.errorMessage = 'La contraseña debe tener al menos 8 caracteres.';
+        return;
     }
 
     // Validar si la contraseña contiene caracteres maliciosos
     if (this.injectionPattern.test(this.password)) {
-      this.passwordInvalid = true;
-      this.errorMessage = 'La contraseña contiene caracteres no permitidos.';
+        this.passwordInvalid = true;
+        this.errorMessage = 'La contraseña contiene caracteres no permitidos.';
+        return;
     }
-  }
+
+    this.passwordInvalid = false;  // Asegurar que la validación pase si todo está bien
+}
+
 
   // Método para mostrar u ocultar la contraseña
   togglePasswordVisibility(): void {
@@ -136,10 +163,7 @@ export class LoginComponent {
     this.domainInvalid = false;
     this.errorMessage = '';
   }
-  onLogin() {
-    this.router.navigate(['/circuit']);
-  }
-
+  
 
 
 }
