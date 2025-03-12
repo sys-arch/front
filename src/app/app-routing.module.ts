@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CircuitComponent } from './circuit/circuit.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './shared/header/header.component';
 
 const routes: Routes = [
@@ -9,6 +10,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Opcional: redirige la raíz a login
   { path: 'header', component: HeaderComponent }, // Define la ruta
   { path: 'circuit', component: CircuitComponent }, // Define la ruta
+  { path: 'register', component: RegisterComponent},
 ];
 
 @NgModule({
