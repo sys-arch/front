@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { ManagerService } from '../manager.service';
 
 
 
@@ -10,9 +11,9 @@ import { catchError } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class UserService {
-    private apiUrl = 'http://localhost:8080'; // Cambia esto si el backend está en otra URL
+    private apiUrl = 'http://localhost:8081'; // Cambia esto si el backend está en otra URL
 
-    constructor(private http: HttpClient, private router: Router) {}
+    constructor(private http: HttpClient, private router: Router, public manager: ManagerService) {}
 
   // Método para enviar credenciales y recibir el token
   login(user: any): Observable<any> {
@@ -25,6 +26,7 @@ export class UserService {
   // Guardar el token en sessionStorage
     saveToken(token: string): void {
         sessionStorage.setItem('token', token);
+        this.manager.token = token;
     }
 
     // Obtener el token
