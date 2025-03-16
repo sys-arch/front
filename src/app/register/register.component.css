@@ -5,24 +5,8 @@
     justify-content: center;
     align-items: center;
     padding-top: 5%;
-    background: url('/assets/images/login-background2.png') no-repeat center center;
+    background: url('/assets/images/backgif.gif') no-repeat center center;
     background-size: cover;
-}
-/* Contenedor para reservar espacio para el mensaje de error */
-.login-failed-container {
-    height: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-  /* Mensaje de error específico para login fallido */
-.login-failed-message {
-    text-align: center;
-    font-size: 14px;
-    color: #ff4d4f;
-    font-weight: bold;
-    margin-top: 5px; /* Se ajusta ligeramente hacia abajo */
 }
 
 .required-info {
@@ -54,7 +38,7 @@
     width: 40%;
     min-height: auto;
     margin-bottom: auto;
-    margin-top: 2%;
+    margin-top: 6%;
     padding: 2%;
     background-color: #23252b;
     box-shadow: 0 5% 5% rgba(0, 0, 0, 0.5);
@@ -149,60 +133,30 @@
     color: #00eeff;
 }
 
-.textbox input::placeholder {
-    color: transparent;
-}
-
-.forgot-password-container {
-    text-align: left;
-    margin-top: -20px;
-}
-
-.forgot-password {
-    font-size: 12px;
-    color: #b3b3b3;
-    text-decoration: none;
-}
-
-.forgot-password:hover {
-    color: #00eeff;
-    text-decoration: underline;
-}
-
-.login-link {
-    color: #00eeff;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.forgot-password:hover,
-.login-link:hover {
-    color: #ffffff;
-    text-decoration: underline;
-}
-
 .actions {
-    width: 35%;
+    width: 28.125rem;
+    min-width: 18.75rem;
     text-align: center;
     position: absolute;
-    padding-top: 15%;
-    margin-left: -2%;
-    top: 55%;
+    top: 64%;
+    left: 50%;
+    transform: translate(-50%, 0);
     z-index: 1;
+    margin-top: 1.25rem;
 }
 
 .actions .btn {
-    width: 114%;
+    width: 100%;
     background-color: #007bff;
     border: none;
-    border-radius: 5px;
+    padding: 0.625rem;
+    border-radius: 0.3125rem;
     color: white;
-    font-size: 0.9em;
-    font-weight: bold;
+    font-size: 1rem;
     cursor: pointer;
-    margin-top: -4%;
+    margin-top: 1.875rem;
+    height: 3.5rem;
 }
-
 .actions .btn:hover {
     background-color: #0056b3;
 }
