@@ -48,7 +48,7 @@ export class UserService {
 
   // Guardar el token en sessionStorage
     saveToken(token: string): void {
-        sessionStorage.setItem('token', token);
+        //sessionStorage.setItem('token', token);
         this.manager.token = token;
     }
 
