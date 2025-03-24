@@ -10,12 +10,18 @@ export class CircuitService {
 
   constructor(private http: HttpClient) { }
 
-  generatecode(outputQubits: number, matrix?: Matrix | undefined) {
+  generatecode(outputQubits: number, token: string, matrix?: Matrix | undefined) {
     let body = {
       outputQubits: outputQubits,
-      table: matrix
+      table: matrix,
+      token: token
     }
-    
-    return this.http.post('http://localhost:8080/circuits/generatecode', body)
+
+    let headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `${token}`
+    }
+
+    return this.http.post('http://localhost:8080/circuits/generatecode', body, { headers })
   }
 }

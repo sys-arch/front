@@ -7,21 +7,27 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CircuitComponent } from './circuit/circuit.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HeaderComponent } from './shared/header/header.component';
+import { PaymentsComponent } from './payments/payments.component';
 
 
 
 const routes: Routes = [ 
-  {path: 'login', component: LoginComponent}
+  {path: 'login', component: LoginComponent},
+  {path: 'register', component: RegisterComponent}
+  
 ];
 @NgModule({
   declarations: [
     AppComponent,
     CircuitComponent,
     LoginComponent,
+    RegisterComponent,
     HeaderComponent,
     FooterComponent,
+    PaymentsComponent,
 
   ],
   imports: [

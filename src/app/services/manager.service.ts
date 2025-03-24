@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class ManagerService {
 
-  token: string | null = null;
+  //token?: string | null;
+  token: string = '';
 
   constructor() { }
 }

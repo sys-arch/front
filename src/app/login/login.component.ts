@@ -62,7 +62,7 @@ export class LoginComponent {
         next: (response) => {
           if (response.token) {
             this.userservice.saveToken(response.token);
-            console.log("Token guardado en sessionStorage:", response.token);
+            console.log("Token guardado correctamente");
             this.router.navigate(['/circuit']);
           } else {
             this.loginFailed = true;

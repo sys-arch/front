@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ManagerService } from '../manager.service';
+import { ManagerService } from './manager.service';
 
 
 
@@ -23,9 +23,32 @@ export class UserService {
     );
   }
 
+  // Metodo para registrar un usuario
+  register(
+    email: string,
+    password1: string,
+    password2: string,
+    nombre: string,
+    apellido: string,
+    apellido2: string,
+
+): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const info = {
+        email: email,
+        pwd1: password1,
+        pwd2: password2,
+        nombre: nombre,
+        apellido1: apellido,
+        apellido2: apellido2,
+    };
+
+    return this.http.post(`${this.apiUrl}/users/register`, info, { headers });
+}
+
   // Guardar el token en sessionStorage
     saveToken(token: string): void {
-        sessionStorage.setItem('token', token);
+        //sessionStorage.setItem('token', token);
         this.manager.token = token;
     }
 
