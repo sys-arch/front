@@ -13,8 +13,7 @@ export class CircuitService {
   generatecode(outputQubits: number, token: string, matrix?: Matrix | undefined) {
     let body = {
       outputQubits: outputQubits,
-      table: matrix,
-      token: token
+      table: matrix
     }
 
     let headers = {
