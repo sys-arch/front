@@ -11,7 +11,7 @@ import { ManagerService } from './manager.service';
     providedIn: 'root'
 })
 export class UserService {
-    private apiUrl = 'http://localhost:8081'; // Cambia esto si el backend está en otra URL
+    private apiUrl = 'http://localhost:8001'; // Cambia esto si el backend está en otra URL
 
     constructor(private http: HttpClient, private router: Router, public manager: ManagerService) {}
 
