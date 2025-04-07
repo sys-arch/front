@@ -21,15 +21,11 @@ export class CircuitService {
       'Authorization': `${token}`
     }
 
-    return this.http.post('http://localhost:8080/circuits/generatecode', body, { headers })
+    return this.http.post('http://localhost:8080/circuits/generate', body, { headers })
     
   }
-  /*
-  saveCodeToDB(code: string) {
-    const body = {
-      code: code
-    };
-
-    return this.http.post('http://localhost:8080/circuits/savecode', body);
-  }*/
+  
+  saveCodeToDB(circuit: any) {
+    return this.http.post('http://localhost:8080/circuits/savecode', circuit);
+  }
 }

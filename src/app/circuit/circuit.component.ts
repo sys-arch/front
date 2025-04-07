@@ -14,6 +14,8 @@ export class CircuitComponent {
   outputQubits: number = 1;
   matrix?: Matrix;
   generatedCode: string = "";
+  circuitName: string = "";
+
 
   constructor(private service: CircuitService, private manager: ManagerService) { 
     this.inputQubits = 3;
@@ -55,11 +57,15 @@ export class CircuitComponent {
     //let token = sessionStorage.getItem('token');
     let token = this.manager.token;
 
+    if (!this.matrix) {
+      console.error("La matriz no ha sido construida aún.");
+      return;
+    }
+
     this.service.generatecode(this.outputQubits, token, this.matrix!).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         console.log("Todo ha ido bien");
-     //   this.generatedCode = response.code;
-        this.generatedCode = "PEPE";
+        this.generatedCode = response.code;
         
       },
       error: (err) => {
@@ -68,20 +74,33 @@ export class CircuitComponent {
     });
   }
 
-  saveCode(){
-    console.log("In progress");
-  }
-/*
+
+
   saveCode() {
-    this.service.saveCodeToDB(this.generatedCode).subscribe({
+    if (!this.matrix || !this.generatedCode) {
+      console.warn("No hay matriz o código generado.");
+      alert("Primero debes generar el código.");
+      return;
+    }
+  
+    const circuitToSave = {
+      name: this.circuitName,
+      outputQubits: this.outputQubits,
+      table: this.matrix.values,
+      code: this.generatedCode
+    };
+  
+    this.service.saveCodeToDB(circuitToSave).subscribe({
       next: () => {
-        console.log("Código guardado en base de datos");
+        console.log("Circuito guardado con éxito.");
+        alert("Circuito guardado correctamente.");
       },
       error: () => {
-        console.log("Error al guardar el código");
+        console.log("Error al guardar el circuito.");
+        alert("Ocurrió un error al guardar el circuito.");
       }
     });
   }
-*/
+  
 
 }
