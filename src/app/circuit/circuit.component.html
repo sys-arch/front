@@ -44,6 +44,10 @@
       <pre class="code-block">
         {{ generatedCode ? generatedCode : "No hay código generado aún." }}
       </pre>
+      <div class="textbox">
+        <input type="text" [(ngModel)]="circuitName" placeholder=" " required />
+        <label>Nombre del Circuito</label>
+      </div>
       <button class="btn" (click)="saveCode()">Guardar Código</button>
     </div>
 
