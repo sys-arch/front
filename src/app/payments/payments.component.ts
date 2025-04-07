@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PaymentsService } from '../services/payments.service';
-import { Stripe } from '@stripe/stripe-js';
+import { loadStripe, Stripe } from '@stripe/stripe-js';
 
 @Component({
   selector: 'app-payments',
@@ -11,11 +11,16 @@ import { Stripe } from '@stripe/stripe-js';
 export class PaymentsComponent implements OnInit {
 
   transactionId? : string
-  stripe = Stripe("pk_test_51Id...BHC")
+  //stripe = Stripe("pk_test_51Id...BHC")
+  stripe!: Stripe | null;
 
   constructor(private paymentsService : PaymentsService) { }
 
-  ngOnInit(): void { }
+ // ngOnInit(): void { }
+
+  async ngOnInit(): Promise<void> {
+    this.stripe = await loadStripe("pk_test_51Id...BHC"); // Carga Stripe de forma asíncrona
+  }
   
   prepay() {
     this.paymentsService.prepay().subscribe({
