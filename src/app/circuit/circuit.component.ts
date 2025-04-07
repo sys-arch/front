@@ -13,6 +13,7 @@ export class CircuitComponent {
   inputQubits: number = 1;
   outputQubits: number = 1;
   matrix?: Matrix;
+  generatedCode: string = "";
 
   constructor(private service: CircuitService, private manager: ManagerService) { 
     this.inputQubits = 3;
@@ -57,11 +58,30 @@ export class CircuitComponent {
     this.service.generatecode(this.outputQubits, token, this.matrix!).subscribe({
       next: (response) => {
         console.log("Todo ha ido bien");
+     //   this.generatedCode = response.code;
+        this.generatedCode = "PEPE";
+        
       },
       error: (err) => {
         console.log("Ha habido un error");
       }
     });
   }
+
+  saveCode(){
+    console.log("In progress");
+  }
+/*
+  saveCode() {
+    this.service.saveCodeToDB(this.generatedCode).subscribe({
+      next: () => {
+        console.log("Código guardado en base de datos");
+      },
+      error: () => {
+        console.log("Error al guardar el código");
+      }
+    });
+  }
+*/
 
 }

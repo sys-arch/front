@@ -45,6 +45,10 @@ export class LoginComponent {
     ngOnInit(): void {
   }
 
+  pasarExtrangis(): void{
+    this.router.navigate(['/circuit']);
+  }
+
    // Método de inicio de sesión que llama al servicio `UserService`
   loginAttempt(): void {
     this.resetValidationStates();
