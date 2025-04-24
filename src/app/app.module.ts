@@ -9,6 +9,8 @@ import { CircuitComponent } from './circuit/circuit.component';
 import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HeaderComponent } from './shared/header/header.component';
+import { ResetContrasenaComponent } from './reset-contrasena/reset-contrasena.component';
+import { ContrasenaOlvidadaComponent } from './contrasena-olvidada/contrasena-olvidada.component';
 
 
 
@@ -22,6 +24,8 @@ const routes: Routes = [
     LoginComponent,
     HeaderComponent,
     FooterComponent,
+    ResetContrasenaComponent,
+    ContrasenaOlvidadaComponent,
 
   ],
   imports: [
