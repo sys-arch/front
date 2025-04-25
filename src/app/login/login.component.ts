@@ -84,6 +84,9 @@ export class LoginComponent {
     }
   }
   
+  navigateToResetPassword(): void {
+    this.router.navigate(['/contrasena-olvidada']);
+  }
   
 
   // Validar que el correo electrónico ingresado tenga un formato válido cada vez que cambie
