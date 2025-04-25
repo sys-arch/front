@@ -77,6 +77,13 @@ export class CircuitComponent {
 
 
   saveCode() {
+    if (this.outputQubits < 6) {
+      alert("El número de Qubits de salida debe ser al menos 6 para guardar el circuito.");
+      return;
+    } 
+
+    //añadir comprobación pagos que tenga saldo el usuario
+
     if (!this.matrix || !this.generatedCode) {
       console.warn("No hay matriz o código generado.");
       alert("Primero debes generar el código.");
@@ -101,6 +108,12 @@ export class CircuitComponent {
       }
     });
   }
-  
+
+  showMatrixModal: boolean = false;
+
+toggleMatrixModal() {
+  this.showMatrixModal = !this.showMatrixModal;
+}
+
 
 }

@@ -172,7 +172,33 @@
   
 
 
-
-
-
-
+  .matrix-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
+  .matrix-modal {
+    background-color: #2a2a2a;
+    padding: 2rem;
+    border-radius: 1rem;
+    max-height: 90vh;
+    max-width: 95vw;
+    overflow: auto;
+    color: white;
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  }
+  
+  .modal-table-container {
+    max-height: 70vh;
+    max-width: 90vw;
+    overflow: auto;
+    margin-top: 1rem;
+  }

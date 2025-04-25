@@ -36,6 +36,9 @@
           </td>
         </tr>
       </table>
+      <div *ngIf="matrix && (inputQubits > 7 || outputQubits > 7)" class="centered-cell">
+        <button class="btn" (click)="toggleMatrixModal()">Ver Matriz Completa</button>
+      </div>
     </div>
 
     <!-- Columna Derecha: Código Generado -->
@@ -53,5 +56,27 @@
 
   </div>
 </div>
+
+
+<div class="matrix-modal-backdrop" *ngIf="showMatrixModal" (click)="toggleMatrixModal()">
+  <div class="matrix-modal" (click)="$event.stopPropagation()">
+    <h3>Matriz Completa</h3>
+    <div class="modal-table-container">
+      <table class="styled-table">
+        <tr *ngFor="let row of matrix?.values; let rowNumber = index">
+          <td *ngFor="let cell of row; let colNumber = index" class="matrix-cell">
+            <span
+              (click)="negate(rowNumber, colNumber)"
+              [style.color]="colNumber < inputQubits ? '#00eeff' : '#ff4d4f'">
+              {{ cell }}
+            </span>
+          </td>
+        </tr>
+      </table>
+      <button class="btn" (click)="toggleMatrixModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
 
 <app-footer></app-footer>
