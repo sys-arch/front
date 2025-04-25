@@ -1,0 +1,167 @@
+.qubit-container-background {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: 
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url('/assets/images/backgif.gif') no-repeat center center;
+  background-size: cover;
+  padding: 1.25rem;
+  overflow-y: auto;
+}
+
+.circuit-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+  text-align: left;
+}
+
+.circuit-list li {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  color: #00eeff;
+}
+
+.circuit-list li:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.matrix-flex-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  transition: all 0.5s ease;
+}
+
+.code-visible {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.matrix-container, .generated-code-section {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 3rem;
+  border-radius: 2rem;
+  min-width: 600px;
+  max-width: 1000px;
+  width: 80%;
+  text-align: center;
+  box-shadow: 0 0 20px #00ffee88;
+  transition: all 0.5s ease;
+}
+
+h2 {
+  font-size: 2.5rem;
+  color: #00ffee;
+  margin-bottom: 2rem;
+}
+
+.circuit-dropdown {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.5rem;
+  border-radius: 1rem;
+  border: none;
+  background: #111;
+  color: #00ffee;
+  box-shadow: 0 0 10px #00ffee55;
+}
+
+.code-block {
+  background: #222;
+  padding: 2rem;
+  border-radius: 1rem;
+  color: #00ffee;
+  font-family: monospace;
+  font-size: 1.3rem;
+  text-align: left;
+  overflow-x: auto;
+}
+
+.empty-message {
+  color: #ccc;
+  font-style: italic;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.circuit-select {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #00eeff;
+  width: 100%;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.circuit-select option {
+  background-color: #000;
+  color: #00eeff;
+}
+
+.circuit-list-box {
+  transition: transform 0.5s ease;
+}
+
+.code-display-box {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2rem;
+  border-radius: 1rem;
+  min-width: 300px;
+  max-width: 600px;
+  width: 100%;
+  color: #00ffee;
+  font-family: monospace;
+  box-shadow: 0 0 10px #00ffee66;
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.5s ease;
+}
+
+.code-visible .circuit-list-box {
+  transform: translateX(-50px);
+}
+
+.code-visible .code-display-box {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.create-circuit-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #00ffee;
+  color: #00ffee;
+  font-size: 1.3rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  box-shadow: 0 0 10px #00ffeeaa;
+  transition: background 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+}
+
+.create-circuit-button:hover {
+  background: rgba(0, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+

@@ -4,6 +4,7 @@ import { CircuitComponent } from './circuit/circuit.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './shared/header/header.component';
+import { MyCircuitsComponent } from './mis-circuitos/mis-circuitos.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent }, // Define la ruta
@@ -11,6 +12,8 @@ const routes: Routes = [
   { path: 'header', component: HeaderComponent }, // Define la ruta
   { path: 'circuit', component: CircuitComponent }, // Define la ruta
   { path: 'register', component: RegisterComponent},
+  { path: 'mis-circuitos', component: MyCircuitsComponent }
+
 ];
 
 @NgModule({

@@ -1,0 +1,35 @@
+<app-header></app-header>
+
+<div class="qubit-container-background">
+
+  <button class="create-circuit-button" [routerLink]="['/circuit']">Crear Circuito</button>
+
+  <div class="matrix-flex-container" [class.code-visible]="selectedCircuit">
+    
+    <!-- Caja de selección de circuitos -->
+    <div class="matrix-container circuit-list-box">
+      <h2>Mis Circuitos</h2>
+
+      <ng-container *ngIf="loading">Cargando circuitos...</ng-container>
+      <ng-container *ngIf="!loading && circuits.length === 0">
+        <p>Este usuario aún no tiene circuitos.</p>
+      </ng-container>
+
+      <select class="circuit-dropdown" [(ngModel)]="selectedCircuit">
+        <option [ngValue]="null" disabled selected>Selecciona un circuito</option>
+        <option *ngFor="let circuit of circuits" [ngValue]="circuit">
+          {{ circuit.name }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Caja de mostrar código del circuito -->
+    <div class="generated-code-section code-display-box" *ngIf="selectedCircuit">
+      <h2>Código del Circuito</h2>
+      <pre class="code-block">{{ selectedCircuit.code }}</pre>
+    </div>
+
+  </div>
+</div>
+
+<app-footer></app-footer>

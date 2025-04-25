@@ -11,6 +11,7 @@ import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { MyCircuitsComponent } from './mis-circuitos/mis-circuitos.component';
 
 
 
@@ -28,6 +29,7 @@ const routes: Routes = [
     HeaderComponent,
     FooterComponent,
     PaymentsComponent,
+    MyCircuitsComponent,
 
   ],
   imports: [
