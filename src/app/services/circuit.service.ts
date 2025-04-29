@@ -28,4 +28,8 @@ export class CircuitService {
   saveCodeToDB(circuit: any) {
     return this.http.post('http://localhost:8080/circuits/savecode', circuit);
   }
+
+  getMyCircuits() {
+    return this.http.get<any[]>('/api/circuits/me');
+  }  
 }
