@@ -35,7 +35,7 @@
                     {{ passwordVisible ? 'Ocultar' : 'Mostrar' }}
                 </span>
             </div>
-            <div class="forgot-password-container">
+            <div class="forgot-password-container" (click)="navigateToResetPassword()">
                 <a href="javascript:void(0)"  class="forgot-password">¿Has olvidado tu contraseña?</a>
             </div>
             <div class="login-failed-container">
@@ -53,5 +53,6 @@
             ¿No tienes cuenta? <a routerLink="/register" class="register-link" >CREAR UNA</a>
         </p>
     </div>
+
 
 <app-footer></app-footer>

@@ -10,7 +10,10 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HeaderComponent } from './shared/header/header.component';
+import { ResetContrasenaComponent } from './reset-contrasena/reset-contrasena.component';
+import { ContrasenaOlvidadaComponent } from './contrasena-olvidada/contrasena-olvidada.component';
 import { PaymentsComponent } from './payments/payments.component';
+
 
 
 
@@ -27,7 +30,10 @@ const routes: Routes = [
     RegisterComponent,
     HeaderComponent,
     FooterComponent,
+    ResetContrasenaComponent,
+    ContrasenaOlvidadaComponent,
     PaymentsComponent,
+
 
   ],
   imports: [
