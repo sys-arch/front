@@ -70,10 +70,7 @@ export class ContrasenaOlvidadaComponent {
     return true;  // El correo es válido
   }
 
-  passwordResetAttempt(event: Event): void {
 
-    
-  }
 
 
   // Método para redirigir a las diferentes páginas
@@ -89,4 +86,20 @@ export class ContrasenaOlvidadaComponent {
   private resetEmailValidationStates(): void {
     this.emailInvalid = false;
   }
+  passwordResetAttempt(event: Event): void {
+    event.preventDefault(); // Evita que se recargue la página
+  
+    if (!this.email) {
+      alert("Por favor, introduce un correo electrónico.");
+      return;
+    }
+  
+    this.userService.forgotPassword(this.email).subscribe({
+      next: () => {
+        this.showResetMessage = true;
+      }
+     
+    });
+  }
+  
 }
