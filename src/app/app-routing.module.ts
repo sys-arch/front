@@ -4,6 +4,7 @@ import { CircuitComponent } from './circuit/circuit.component';
 import { ContrasenaOlvidadaComponent } from './contrasena-olvidada/contrasena-olvidada.component';
 import { LoginComponent } from './login/login.component';
 import { ResetContrasenaComponent } from './reset-contrasena/reset-contrasena.component';
+import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './shared/header/header.component';
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'circuit', component: CircuitComponent }, // Define la ruta
   { path: 'reset-contrasena', component: ResetContrasenaComponent }, // Define la ruta
   { path: 'contrasena-olvidada', component: ContrasenaOlvidadaComponent } // Define la ruta
+  { path: 'register', component: RegisterComponent},
 
 ];
 

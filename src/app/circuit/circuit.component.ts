@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CircuitService } from '../services/circuit.service';
 import { Matrix } from './Matrix';
+import { ManagerService } from '../services/manager.service';
 
 @Component({
   selector: 'app-circuit',
@@ -13,7 +14,7 @@ export class CircuitComponent {
   outputQubits: number = 1;
   matrix?: Matrix;
 
-  constructor(private service: CircuitService) {
+  constructor(private service: CircuitService, private manager: ManagerService) { 
     this.inputQubits = 3;
     this.outputQubits = 3;
   }
@@ -49,7 +50,11 @@ export class CircuitComponent {
   }
 
   generatecode() {
-    this.service.generatecode(this.outputQubits, this.matrix).subscribe({
+
+    //let token = sessionStorage.getItem('token');
+    let token = this.manager.token;
+
+    this.service.generatecode(this.outputQubits, token, this.matrix!).subscribe({
       next: (response) => {
         console.log("Todo ha ido bien");
       },
