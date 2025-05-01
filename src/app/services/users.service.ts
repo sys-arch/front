@@ -39,6 +39,7 @@ export class UserService {
     apellido2: string,
 
 ): Observable<any> {
+  console.log('Registering user:', email, password1, password2, nombre, apellido, apellido2);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const info = {
         email: email,
