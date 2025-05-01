@@ -52,12 +52,7 @@ export class UserService {
     return this.http.post(`${this.apiUrl}/users/register`, info, { headers });
 }
 
-  // Guardar el token en sessionStorage
-    saveToken(token: string): void {
-        //sessionStorage.setItem('token', token);
-        this.manager.token = token;
-    }
-
+  
 
   // Obtener token
   getToken(): string | null {
