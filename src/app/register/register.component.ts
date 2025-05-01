@@ -97,15 +97,10 @@ export class RegisterComponent {
 
   // Manejo del submit del formulario
   onSubmit(): void {
+   
     // Verificar si el correo electrónico tiene formato válido
     if (this.emailInvalid) {
       alert("Correo electrónico inválido");
-      return;
-    }
-
-    // Verificar si la fecha de alta es válida
-    if (this.fechaInvalid) {
-      alert("Fecha de alta inválida");
       return;
     }
 
@@ -119,14 +114,14 @@ export class RegisterComponent {
     }
 
     // Verificar si hay campos obligatorios vacíos
-    if (!this.nombre || !this.apellido || !this.apellido2 || !this.email || !this.centro || !this.fechaAlta || !this.password1 || !this.password2) {
+    if (!this.nombre || !this.apellido || !this.apellido2 || !this.email || !this.password1 || !this.password2) {
       this.errorMessage = 'Todos los campos obligatorios deben estar llenos.';
       return;
     }
 
     // Formatear la fecha de alta si es necesario
     let formattedDate = this.fechaAlta ? this.fechaAlta.toString().split('T')[0] : '';
-
+    console.log('Formulario enviado:')
     // Llamada al servicio para registrar el usuario
     this.userService.register(this.email, this.password1, this.password2, this.nombre, this.apellido, this.apellido2)
       .subscribe({

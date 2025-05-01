@@ -63,13 +63,14 @@
 
                 <p class="required-info">Los campos(*) son obligatorios.</p>
             </div>
+            <div class="actions">
+                <button class="btn" type="submit">Acceder</button>
+                <p class="login-text">
+                    ¿Ya tienes una cuenta? <a routerLink="/login" class="login-link" (click)="navigateTo('/login')">INICIAR SESIÓN</a>
+                </p>
+            </div>
         </form>
-        <div class="actions">
-            <button class="btn" (click)="registerForm.ngSubmit.emit()">Acceder</button>
-            <p class="login-text">
-                ¿Ya tienes una cuenta? <a routerLink="/login" class="login-link" (click)="navigateTo('/login')">INICIAR SESIÓN</a>
-            </p>
-        </div>
+        
         
     </div>
 
