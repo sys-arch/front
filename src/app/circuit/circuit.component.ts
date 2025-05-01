@@ -70,6 +70,7 @@ export class CircuitComponent {
       },
       error: (err) => {
         console.log("Ha habido un error");
+        alert("Ocurrió un error al generar el código.");
       }
     });
   }
@@ -89,6 +90,12 @@ export class CircuitComponent {
       alert("Primero debes generar el código.");
       return;
     }
+
+    
+  if (!this.circuitName.trim()) {
+    alert("Debes introducir un nombre para el circuito antes de generar el código.");
+    return;
+  }
   
     const circuitToSave = {
       name: this.circuitName,
@@ -101,6 +108,8 @@ export class CircuitComponent {
       next: () => {
         console.log("Circuito guardado con éxito.");
         alert("Circuito guardado correctamente.");
+
+        this.generatecode();
       },
       error: () => {
         console.log("Error al guardar el circuito.");

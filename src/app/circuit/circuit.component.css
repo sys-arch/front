@@ -168,8 +168,8 @@
     margin-bottom: 1rem;
     color: #ffffff;
     font-size: 0.9rem;
+    text-align: left; 
   }
-  
 
 
   .matrix-modal-backdrop {

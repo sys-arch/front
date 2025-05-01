@@ -16,7 +16,7 @@ const routes: Routes = [
 
   { path: 'register', component: RegisterComponent},
   { path: 'reset-contrasena', component: ResetContrasenaComponent }, // Define la ruta
-  { path: 'contrasena-olvidada', component: ContrasenaOlvidadaComponent } // Define la ruta
+  { path: 'contrasena-olvidada', component: ContrasenaOlvidadaComponent }, // Define la ruta
   { path: 'mis-circuitos', component: MyCircuitsComponent }
 
 ];
