@@ -92,17 +92,34 @@ export class CircuitComponent {
     }
 
     
-  if (!this.circuitName.trim()) {
-    alert("Debes introducir un nombre para el circuito antes de generar el código.");
-    return;
-  }
-  
+    if (!this.circuitName.trim()) {
+      alert("Debes introducir un nombre para el circuito antes de generar el código.");
+      return;
+    }
+
+
+    const token = this.manager.token;
+    console.log(token);
+    const decoded = this.decodeTokenPayload(token);
+    const email = decoded?.sub;
+    console.log(email);
+
+
+
+    if (!email) {
+      alert("No se pudo obtener el email del token.");
+      return;
+    } 
+
     const circuitToSave = {
+      userEmail: email, 
       name: this.circuitName,
       outputQubits: this.outputQubits,
       table: this.matrix.values,
-      code: this.generatedCode
+      code: this.generatedCode,
     };
+
+
   
     this.service.saveCodeToDB(circuitToSave).subscribe({
       next: () => {
@@ -123,6 +140,18 @@ export class CircuitComponent {
 toggleMatrixModal() {
   this.showMatrixModal = !this.showMatrixModal;
 }
+
+private decodeTokenPayload(token: string): any {
+  try {
+    const payload = token.split('.')[1];
+    const decoded = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+    return JSON.parse(decoded);
+  } catch (e) {
+    console.error("Error al decodificar el token:", e);
+    return null;
+  }
+}
+
 
 
 }
