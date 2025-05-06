@@ -1,24 +1,83 @@
-<p><strong>Number of input qubits:</strong></p>
-<input type="number" [(ngModel)]="inputQubits" />
-<p><strong>Number of output qubits:</strong></p>
-<input type="number" [(ngModel)]="outputQubits" /><br><br>
+<app-header></app-header>
 
-<button (click)="buildMatrix()">Build Matrix</button><br><br>
+<div class="qubit-container-background">
+  <div class="matrix-flex-container">
+    
+    <!-- Columna Izquierda: Configuración + Tabla -->
+    <div class="matrix-container">
+      <h2>Configuración de Qubits</h2>
 
-<table *ngIf="matrix" style="border-collapse: collapse;">
-    <tr>
-        <td [attr.colspan]="inputQubits + outputQubits">
-            <button (click)="generatecode()">Generate Code</button>
-        </td>
-    </tr>
-    <tr *ngFor="let row of matrix.values; let rowNumber = index">
-        <td *ngFor="let cell of row; let colNumber = index"
-            style="padding: 4px; border: 1px solid #ccc; text-align: center;">
-            <span (click)="negate(rowNumber, colNumber)"
-                [style.color]="colNumber < inputQubits ? 'blue' : 'red'"
-                style="cursor: pointer;">
-                {{cell}}
+      <div class="textbox">
+        <input type="number" [(ngModel)]="inputQubits" placeholder=" " required />
+        <label>Número de Qubits de Entrada</label>
+      </div>
+
+      <div class="textbox">
+        <input type="number" [(ngModel)]="outputQubits" placeholder=" " required />
+        <label>Número de Qubits de Salida</label>
+      </div>
+
+      <button class="btn" (click)="buildMatrix()">Construir Matriz</button>
+
+      <table *ngIf="matrix" class="styled-table">
+        <tr>
+          <td [attr.colspan]="inputQubits + outputQubits" class="centered-cell">
+            <button class="btn" (click)="generatecode()">Generar Código</button>
+          </td>
+        </tr>
+        <tr *ngFor="let row of matrix.values; let rowNumber = index">
+          <td *ngFor="let cell of row; let colNumber = index" class="matrix-cell">
+            <span
+              (click)="negate(rowNumber, colNumber)"
+              [style.color]="colNumber < inputQubits ? '#00eeff' : '#ff4d4f'">
+              {{ cell }}
             </span>
-        </td>
-    </tr>
-</table>
+          </td>
+        </tr>
+      </table>
+
+      <div *ngIf="matrix && (inputQubits > 7 || outputQubits > 7)" class="centered-cell">
+        <button class="btn" (click)="toggleMatrixModal()">Ver Matriz Completa</button>
+      </div>
+    </div>
+
+    <!-- Columna Derecha: Código Generado -->
+    <div class="matrix-container">
+      <h2>Código Generado</h2>
+      <pre class="code-block">
+{{ generatedCode ? generatedCode : "No hay código generado aún." }}
+      </pre>
+      <div class="textbox">
+        <input type="text" [(ngModel)]="circuitName" placeholder=" " required />
+        <label>Nombre del Circuito</label>
+      </div>
+      <button class="btn" (click)="saveCode()">Guardar Código</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal de la matriz -->
+<div class="matrix-modal-backdrop" *ngIf="showMatrixModal" (click)="toggleMatrixModal()">
+  <div class="matrix-modal" (click)="$event.stopPropagation()">
+    <h3>Matriz Completa</h3>
+    <div class="modal-table-container">
+      <table class="styled-table">
+        <tr *ngFor="let row of matrix?.values; let rowNumber = index">
+          <td *ngFor="let cell of row; let colNumber = index" class="matrix-cell">
+            <span
+              (click)="negate(rowNumber, colNumber)"
+              [style.color]="colNumber < inputQubits ? '#00eeff' : '#ff4d4f'">
+              {{ cell }}
+            </span>
+          </td>
+        </tr>
+      </table>
+      <div class="centered-cell">
+        <button class="btn" (click)="toggleMatrixModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

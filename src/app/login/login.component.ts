@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/users.service';
+import { ManagerService } from '../services/manager.service';
 
 
 @Component({
@@ -41,7 +42,7 @@ export class LoginComponent {
     'fakeinbox.com',
     'tempmailaddress.com'
   ];
-    constructor(private router: Router, private userservice: UserService) {}
+    constructor(private router: Router, private userservice: UserService, private manager: ManagerService) {}
     ngOnInit(): void {
   }
 
@@ -63,6 +64,7 @@ export class LoginComponent {
           if (response.token) {
             this.userservice.saveToken(response.token);
             console.log("Token guardado correctamente");
+            this.manager.token = response.token;
             this.router.navigate(['/circuit']);
           } else {
             this.loginFailed = true;
