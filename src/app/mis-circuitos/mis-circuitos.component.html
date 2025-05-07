@@ -6,7 +6,6 @@
 
   <div class="matrix-flex-container" [class.code-visible]="selectedCircuit">
     
- Caja de selección de circuitos 
     <div class="matrix-container circuit-list-box">
       <h2>Mis Circuitos</h2>
 
@@ -23,7 +22,6 @@
       </select>
     </div>
 
-     Caja de mostrar código del circuito 
     <div class="generated-code-section code-display-box" *ngIf="selectedCircuit">
       <h2>Código del Circuito</h2>
       <pre class="code-block">{{ selectedCircuit.code }}</pre>

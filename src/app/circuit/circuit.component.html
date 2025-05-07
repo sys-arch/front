@@ -1,6 +1,7 @@
 <app-header></app-header>
 
 <div class="qubit-container-background">
+  <button class="go-to-circuits-btn" [routerLink]="'/mis-circuitos'">Ir a Mis Circuitos</button>
   <div class="matrix-flex-container">
     
     <!-- Columna Izquierda: Configuración + Tabla -->
@@ -52,7 +53,6 @@
         <label>Nombre del Circuito</label>
       </div>
       <button class="btn" (click)="saveCode()">Guardar Código</button>
-      <button class="btn" [routerLink]="'/mis-circuitos'">Ir a Mis Circuitos</button>
     </div>
 
   </div>
