@@ -13,6 +13,7 @@ import { RegisterComponent } from './register/register.component';
 import { ResetContrasenaComponent } from './reset-contrasena/reset-contrasena.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HeaderComponent } from './shared/header/header.component';
+import { MyCircuitsComponent } from './mis-circuitos/mis-circuitos.component';
 
 
 
@@ -34,7 +35,7 @@ const routes: Routes = [
     ResetContrasenaComponent,
     ContrasenaOlvidadaComponent,
     PaymentsComponent,
-
+    MyCircuitsComponent,
 
   ],
   imports: [

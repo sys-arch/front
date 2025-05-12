@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CircuitService } from '../services/circuit.service';
+import { ManagerService } from '../services/manager.service';
 
 @Component({
   selector: 'app-mis-circuitos',
@@ -14,30 +15,34 @@ export class MyCircuitsComponent implements OnInit {
   selectedCircuit: any = null;
   loading = true;
 
-  constructor(private service: CircuitService, private router: Router) {}
+  constructor(private service: CircuitService, private router: Router, private manager: ManagerService) {}
 
-  ngOnInit(): void {
-    // Simulación de circuitos para test visual
-    this.circuits = [
-      { name: 'Circuito de prueba A', code: 'q0 -> H -> X' },
-      { name: 'Circuito de prueba B', code: 'q1 -> X -> H -> Z' },
-      { name: 'Circuito de prueba C', code: 'q2 -> H -> CNOT -> M' }
-    ];
-    this.loading = false;
   
-    // Descomenta esto cuando uses datos reales
-    /*
-    this.service.getMyCircuits().subscribe({
-      next: (response) => {
-        this.circuits = response;
-        this.loading = false;
-      },
-      error: () => {
-        console.log("Error al recuperar circuitos");
-        this.loading = false;
-      }
-    });
-    */
+  ngOnInit(): void {
+    const token = sessionStorage.getItem('token');
+    console.log("Token recibido desde sessionStorage:", token);  // Verifica el token aquí
+
+    if (token) {
+      const decoded = this.decodeTokenPayload(token);
+      console.log("Decoded Token:", decoded);  // Verifica el token decodificado
+      const email = decoded?.sub;
+      console.log("Email extraído:", email);
+
+      this.service.getMyCircuits(email).subscribe({
+        next: (response) => {
+          console.log("Respuesta:", response);  // Verifica la respuesta
+          this.circuits = response;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error("Error al recuperar circuitos:", err);  // Detalles del error
+          this.loading = false;
+        }
+      });
+    } else {
+      console.error("Token no válido o vacío");
+      this.loading = false;
+    }
   }
   
 
@@ -54,6 +59,17 @@ export class MyCircuitsComponent implements OnInit {
 
   goToCreateCircuit() {
     this.router.navigate(['/create-circuit']);
+  }
+
+  private decodeTokenPayload(token: string): any {
+    try {
+      const payload = token.split('.')[1];
+      const decoded = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+      return JSON.parse(decoded);
+    } catch (e) {
+      console.error("Error al decodificar el token:", e);
+      return null;
+    }
   }
   
 }

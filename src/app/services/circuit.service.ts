@@ -30,7 +30,14 @@ export class CircuitService {
     return this.http.post('http://localhost:8002/circuits/savecode', circuit);
   }
 
-  getMyCircuits() {
-    return this.http.get<any[]>('/api/circuits/me');
+  getMyCircuits(token: string) {
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `${token}`
+    };
+  
+    return this.http.get<any[]>('http://localhost:8002/circuits/my-circuits', { headers });
   }  
+  
+  
 }
