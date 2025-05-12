@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CircuitService } from '../services/circuit.service';
 import { ManagerService } from '../services/manager.service';
+import { CreditsService } from '../services/credits.service'; 
 import { Matrix } from './Matrix';
 
 
@@ -17,15 +18,40 @@ export class CircuitComponent {
   matrix?: Matrix;
   generatedCode: string = "";
   circuitName: string = "";
+  credits: number = 0;
 
 
-  constructor(private service: CircuitService, private manager: ManagerService, private router: Router) { 
+  constructor(private service: CircuitService, private manager: ManagerService, private router: Router, private creditsService: CreditsService) { 
     this.inputQubits = 3;
     this.outputQubits = 3;
   }
   ngOnInit(): void {
-    
+    this.getCredits();
   }
+
+  getCredits() {
+    const token = this.manager.token;
+    console.log("Token: " + token)
+    const decoded = this.decodeTokenPayload(token);
+    const email = decoded?.sub;
+    console.log("Email: " + email)
+
+    if (!email) {
+      console.error("No se pudo obtener el email del token.");
+      return;
+    }
+
+    this.creditsService.getUsersCredits(email).subscribe({
+      next: (response: any) => {
+        console.log("Creditos:" + response.credits)
+        this.credits = response.credits;
+      },
+      error: (err) => {
+        console.error("Error al obtener los créditos", err);
+      }
+    });
+  }
+
   buildMatrix() {
     const rows = Math.pow(2, this.inputQubits);
     const columns = this.inputQubits + this.outputQubits;
