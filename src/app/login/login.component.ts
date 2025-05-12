@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../services/users.service';
 import { ManagerService } from '../services/manager.service';
+import { UserService } from '../services/users.service';
 
 
 @Component({
@@ -65,6 +65,7 @@ export class LoginComponent {
             this.userservice.saveToken(response.token);
             console.log("Token guardado correctamente");
             this.manager.token = response.token;
+            sessionStorage.setItem('token', response.token);
             this.router.navigate(['/circuit']);
           } else {
             this.loginFailed = true;

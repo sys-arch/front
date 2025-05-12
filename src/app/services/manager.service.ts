@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-
 @Injectable({
   providedIn: 'root'
 })
 export class ManagerService {
 
-  //token?: string | null;
-  token: string = '';
+  token: string;
 
-  constructor() { }
+  constructor() {
+    this.token = sessionStorage.getItem('token') || ''; // <- evita null
+  }
 }

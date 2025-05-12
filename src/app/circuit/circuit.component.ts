@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { CircuitService } from '../services/circuit.service';
-import { Matrix } from './Matrix';
 import { ManagerService } from '../services/manager.service';
+import { Matrix } from './Matrix';
+
 
 @Component({
   selector: 'app-circuit',
@@ -17,7 +19,7 @@ export class CircuitComponent {
   circuitName: string = "";
 
 
-  constructor(private service: CircuitService, private manager: ManagerService) { 
+  constructor(private service: CircuitService, private manager: ManagerService, private router: Router) { 
     this.inputQubits = 3;
     this.outputQubits = 3;
   }
@@ -140,7 +142,11 @@ export class CircuitComponent {
 toggleMatrixModal() {
   this.showMatrixModal = !this.showMatrixModal;
 }
-
+logout(): void {
+    this.manager.token = '';
+    sessionStorage.removeItem('token');
+    this.router.navigate(['/login']);
+  }
 private decodeTokenPayload(token: string): any {
   try {
     const payload = token.split('.')[1];
