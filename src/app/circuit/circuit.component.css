@@ -163,7 +163,46 @@
   .go-to-circuits-btn:hover {
     background-color: #0056b3;
   }
-  
+
+  /* Contenedor de créditos */
+  .credits-container {
+    position: fixed; /* Para que se ubique con respecto a la ventana */
+    top: 60px;
+    left: 30px;
+    background-color: rgba(35, 37, 43, 0.9);
+    padding: 1.5rem 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    color: #ffffff;
+    text-align: center;
+    font-size: 1.25rem;
+    max-width: 450px;
+    z-index: 1000; /* Asegura que quede visible encima de otros elementos */
+  }  
+
+/* Estilo para el texto de los créditos */
+.credits-text {
+  font-weight: bold; /* Negrita para hacerlo destacar */
+  font-size: 1.5rem; /* Tamaño de fuente mayor */
+  color: #00ffcc; /* Un color llamativo, puedes cambiarlo a lo que prefieras */
+  text-shadow: 0 0 10px rgba(0, 255, 204, 0.8); /* Sombra de texto para darle más profundidad */
+  margin: 0; /* Quitamos márgenes adicionales */
+}
+
+/* Agregar animación cuando se carga el contenedor */
+.credits-container {
+  animation: fadeIn 1s ease-in-out; /* Desvanecimiento suave */
+}
+
+/* Animación de desvanecimiento */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+} 
 
   .matrix-flex-container {
     display: flex;
