@@ -1,82 +1,78 @@
-import { Component, OnInit } from '@angular/core';
-import { loadStripe, Stripe } from '@stripe/stripe-js';
+import { Component } from '@angular/core';
+import { loadStripe, Stripe, StripeCardElement, StripeElements } from '@stripe/stripe-js';
 import { PaymentsService } from '../services/payments.service';
-
-//declare let Stripe : any;
 
 @Component({
   selector: 'app-payments',
   standalone: false,
   templateUrl: './payments.component.html',
-  styleUrls: ['./payments.component.css'] // <- ojo con "styleUrl" → debe ser "styleUrls" (plural)
+  styleUrl: './payments.component.css'
 })
-export class PaymentsComponent implements OnInit {
+export class PaymentsComponent {
 
-  matches : number = 30
-  transactionId?: string;
+
+
+  matches: number = 30;
+  transactionId?: string; // client_secret de Stripe
   stripePromise: Promise<Stripe | null>;
+  stripe: Stripe | null = null;
+  elements?: StripeElements;
+  card?: StripeCardElement;
+  message = '';
 
   constructor(private paymentsService: PaymentsService) {
-    // Clave pública de Stripe
     this.stripePromise = loadStripe("pk_test_51R3dbM4U1X4tsPy7Wt3zgFmRH3PikvpeZwHSzi3RAlzd8s0P4lfNr6EpPXOqAIDP7ZjZ3KUFuoOL9Q2kW5Bi6gjk00o3lL2W7z");
   }
 
-  async ngOnInit(): Promise<void> {
-    const stripe = await this.stripePromise;
-    if (!stripe) {
+  async ngOnInit() {
+    this.stripe = await this.stripePromise;
+    if (!this.stripe) {
       console.error("Stripe no se pudo inicializar");
+      return;
     }
+    this.elements = this.stripe.elements();
   }
 
   prepay() {
     this.paymentsService.prepay().subscribe({
       next: (response: any) => {
-        alert(response.body);
+        this.transactionId = response.body; // client_secret
+        this.message = "Introduce los datos de tu tarjeta para completar el pago.";
+
+        // Montamos Stripe Elements solo si no está ya montado
+        if (this.elements && !this.card) {
+          this.card = this.elements.create("card");
+          this.card.mount("#card-element");
+        }
       },
-      error: (response: any) => {
-        alert(response);
+      error: (err) => {
+        this.message = "Error en prepay";
+        console.error(err);
       }
     });
   }
 
-  confirm(matches: number) {
-    const token = sessionStorage.getItem('token');
-    if (!token) {
-      alert("Token de sesión no encontrado.");
-      return;
-    }
-  
-    this.paymentsService.confirm(token, matches).subscribe({
-      next: (response: any) => {
-        alert("Confirmación exitosa");
-      },
-      error: (response: any) => {
-        alert("Error en la confirmación: " + JSON.stringify(response));
-      }
-    });
-  }
-  
   async pay() {
-    const stripe = await this.stripePromise;
-    if (!stripe) {
-      console.error("Stripe no se pudo inicializar");
-      return;
-    }
+    if (!this.stripe || !this.card || !this.transactionId) return;
 
-    const token = sessionStorage.getItem('token');
-    if (!token) {
-      alert("Token de sesión no encontrado.");
-      return;
-    }
-
-    this.paymentsService.pay(token).subscribe({
-      next: (response: any) => {
-        const sessionId = response.body;
-        stripe.redirectToCheckout({ sessionId });
-      },
-      error: (response: any) => {
-        alert("Error en el pago: " + JSON.stringify(response));
+    const result = await this.stripe.confirmCardPayment(this.transactionId, {
+      payment_method: {
+        card: this.card
       }
     });
+
+    if (result.error) {
+      this.message = "Error en el pago: " + result.error.message;
+    } else if (result.paymentIntent?.status === 'succeeded') {
+      this.message = "Pago exitoso. Confirmando...";
+
+      const token = sessionStorage.getItem('token');
+      if (token) {
+        this.paymentsService.confirm(token, this.matches).subscribe({
+          next: () => this.message += " Confirmación OK.",
+          error: (e) => this.message += " Pero hubo un error al confirmar: " + JSON.stringify(e)
+        });
+      }
+    }
   }
 }

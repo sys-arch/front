@@ -1,1 +1,32 @@
+<app-header></app-header>
 
+<div class="payment-background">
+
+  <div class="payment-container">
+    <h2>Compra de Créditos</h2>
+
+    <label for="matches">Selecciona créditos:</label>
+    <select id="matches" [(ngModel)]="matches">
+      <option [value]="10">10 créditos</option>
+      <option [value]="20">20 créditos</option>
+      <option [value]="30">30 créditos</option>
+      <option [value]="50">50 créditos</option>
+    </select>
+
+    <button (click)="prepay()">Prepay</button>
+
+    <div *ngIf="transactionId">
+      <h3>Introduce los datos de tu tarjeta</h3>
+      <div id="card-element"></div>
+      <button (click)="pay()">Pagar</button>
+    </div>
+
+    <div *ngIf="message" class="payment-message">{{ message }}</div>
+  </div>
+
+  <!-- Botón fijo para volver -->
+
+</div>
+  <button class="go-to-circuits-btn" routerLink="/circuit">Volver</button>
+
+<app-footer></app-footer>

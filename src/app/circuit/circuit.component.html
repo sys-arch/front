@@ -1,7 +1,11 @@
 <app-header></app-header>
 
 <div class="qubit-container-background">
-  <button class="go-to-circuits-btn" [routerLink]="'/mis-circuitos'">Ir a Mis Circuitos</button>
+<!-- Botón para ir a Mis Circuitos -->
+<button class="go-to-circuits-btn" [routerLink]="'/mis-circuitos'">Ir a Mis Circuitos</button>
+
+<!-- Botón para ir a Payments -->
+<button class="go-to-payments-btn" [routerLink]="'/payments'">Comprar Créditos</button>
   <div class="credits-container">
     <p class="credits-text">Créditos Disponibles: {{ credits }}</p>
   </div>

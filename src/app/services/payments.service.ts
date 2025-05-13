@@ -33,7 +33,18 @@ export class PaymentsService {
     });
   }
 
-  pay(token: string) {
-    throw new Error('Method not implemented.');
-  }
+  pay(token: string): Observable<Object> {
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  });
+
+  return this.client.post("http://localhost:8003/payments/pay", {}, {
+    headers,
+    withCredentials: true,
+    observe: "response",
+    responseType: "text"
+  });
+}
+
 }
