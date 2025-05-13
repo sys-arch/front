@@ -32,4 +32,8 @@ export class PaymentsService {
       responseType: "text"
     });
   }
+
+  pay(token: string) {
+    throw new Error('Method not implemented.');
+  }
 }
