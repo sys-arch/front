@@ -154,6 +154,17 @@ export class CircuitComponent {
         console.log("Circuito guardado con éxito.");
         alert("Circuito guardado correctamente.");
 
+        this.creditsService.deductCredit(email).subscribe({
+          next: () => {
+            console.log("Crédito descontado correctamente");
+            this.getCredits();
+          },
+          error: (err) => {
+            console.error("Error al descontar el crédito.", err);
+            alert("Error al descontar crédito.");
+          }
+        });
+
         this.generatecode();
       },
       error: () => {
