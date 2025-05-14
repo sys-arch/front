@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ManagerService } from '../services/manager.service';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 interface Credits {
   id: number;
@@ -14,7 +15,7 @@ interface Credits {
 })
 
 export class CreditsService {
-  private apiUrl = 'http://localhost:8001/credits';
+  private baseUrl = environment.usersUrl;
 
   constructor(private http: HttpClient, private manager: ManagerService) { }
 
@@ -24,7 +25,7 @@ export class CreditsService {
       'Authorization': email
     });
   
-    return this.http.get<Credits>(`${this.apiUrl}/getcredits`, { headers });
+    return this.http.get<Credits>(`${this.baseUrl}/credits/getcredits`, { headers });
   }
   
   deductCredit(email: string) {
@@ -32,7 +33,7 @@ export class CreditsService {
     'Authorization': `Bearer ${this.manager.token}`
   });
 
-  return this.http.post(`${this.apiUrl}/deductcredits/${email}?amount=1`, null, {
+  return this.http.post(`${this.baseUrl}/deductcredits/${email}?amount=1`, null, {
     headers,
     responseType: 'text' as 'json'
   });

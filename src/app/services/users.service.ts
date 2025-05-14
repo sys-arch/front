@@ -4,13 +4,14 @@ import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ManagerService } from './manager.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private apiUrl = 'http://localhost:8001'; // Cambia esto si el backend está en otra URL
+  private baseUrl = environment.usersUrl;
 
   constructor(private http: HttpClient, private router: Router, public manager: ManagerService) {}
 
@@ -18,7 +19,7 @@ export class UserService {
   // Login
   login(user: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.put(`${this.apiUrl}/users/login`, user, { headers }).pipe(
+    return this.http.put(`${this.baseUrl}/users/login`, user, { headers }).pipe(
       catchError(error => throwError(() => error))
     );
   }
@@ -50,7 +51,7 @@ export class UserService {
         apellido2: apellido2,
     };
 
-    return this.http.post(`${this.apiUrl}/users/register`, info, { headers });
+    return this.http.post(`${this.baseUrl}/users/register`, info, { headers });
 }
 
   
@@ -73,7 +74,7 @@ export class UserService {
 
   // Validar token JWT
   validateToken(): Observable<any> {
-    const url = `${this.apiUrl}/tokens/validarToken`;
+    const url = `${this.baseUrl}/tokens/validarToken`;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`
     });
@@ -82,7 +83,7 @@ export class UserService {
 
   // Restablecer contraseña (POST con token, nueva pwd y confirmación)
   resetPassword(data: { token: string, newPassword: string, confirmPassword: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/pwd/reset`, data, {
+    return this.http.post(`${this.baseUrl}/pwd/reset`, data, {
       responseType: 'text'
     });
   }
@@ -90,13 +91,13 @@ export class UserService {
   // Solicitar reenvío del enlace de restablecimiento
   forgotPassword(email: string): Observable<any> {
     const body = new HttpParams().set('email', email);
-    return this.http.post(`${this.apiUrl}/pwd/forgot`, body, {
+    return this.http.post(`${this.baseUrl}/pwd/forgot`, body, {
       responseType: 'text'
     });
   }
 
   // Validar que el token recibido es válido (GET)
   validateResetToken(token: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/pwd/reset?token=${token}`);
+    return this.http.get(`${this.baseUrl}/pwd/reset?token=${token}`);
   }
 }
