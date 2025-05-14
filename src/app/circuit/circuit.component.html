@@ -89,4 +89,13 @@
 </div>
 <button class="logout-btn" (click)="logout()">Cerrar sesión</button>
 
+<!-- Modal -->
+<div *ngIf="showModal" class="simple-modal-backdrop">
+  <div class="simple-modal">
+    <span class="close-btn" (click)="closeModal()">&times;</span>
+    <p>{{ modalMessage }}</p>
+  </div>
+</div>
+
+
 <app-footer></app-footer>

@@ -37,6 +37,8 @@ export class RegisterComponent {
   bloqueado = true;
   verificado = false;
   formattedDate: string = '';
+  showModal = false;
+  modalMessage = ''; 
 
   constructor(
     private readonly router: Router,
@@ -100,16 +102,16 @@ export class RegisterComponent {
    
     // Verificar si el correo electrónico tiene formato válido
     if (this.emailInvalid) {
-      alert("Correo electrónico inválido");
+      this.openModal('Correo electrónico invalido');
       return;
     }
 
     // Validación de la contraseña
     if (!this.validarPassword()) {
-      alert("Contraseña inválida");
+      this.openModal('Contraseña inválida');
       return;
     } else if (!this.validarConfirmPassword()) {
-      alert("Las contraseñas no coinciden");
+      this.openModal('Las contraseñas no coinciden');
       return;
     }
 
@@ -121,12 +123,10 @@ export class RegisterComponent {
 
     // Formatear la fecha de alta si es necesario
     let formattedDate = this.fechaAlta ? this.fechaAlta.toString().split('T')[0] : '';
-    console.log('Formulario enviado:')
     // Llamada al servicio para registrar el usuario
     this.userService.register(this.email, this.password1, this.password2, this.nombre, this.apellido, this.apellido2)
       .subscribe({
         next: (response) => {
-          console.log('Usuario registrado con éxito:', response);
           this.navigateTo('/login');
         },
         error: (error) => {
@@ -151,4 +151,14 @@ export class RegisterComponent {
       nextElement.focus();
     }
   }
+
+  openModal(message: string) {
+    this.modalMessage = message;
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+  }
+
 }
