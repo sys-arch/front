@@ -34,7 +34,7 @@ export class PaymentsComponent {
   }
 
   prepay() {
-    this.paymentsService.prepay().subscribe({
+    this.paymentsService.prepay(this.matches).subscribe({
       next: (response: any) => {
         this.transactionId = response.body; // client_secret
         this.message = "Introduce los datos de tu tarjeta para completar el pago.";
