@@ -19,7 +19,8 @@ export class CircuitComponent {
   generatedCode: string = "";
   circuitName: string = "";
   credits: number = 0;
-
+  showModal = false;
+  modalMessage = ''; 
 
   constructor(private service: CircuitService, private manager: ManagerService, private router: Router, private creditsService: CreditsService) { 
     this.inputQubits = 3;
@@ -31,10 +32,8 @@ export class CircuitComponent {
 
   getCredits() {
     const token = this.manager.token;
-    console.log("Token: " + token)
     const decoded = this.decodeTokenPayload(token);
     const email = decoded?.sub;
-    console.log("Email: " + email)
 
     if (!email) {
       console.error("No se pudo obtener el email del token.");
@@ -47,7 +46,7 @@ export class CircuitComponent {
         this.credits = response.credits;
       },
       error: (err) => {
-        console.error("Error al obtener los créditos", err);
+        this.openModal('Error al obtener los créditos');
       }
     });
   }
@@ -69,8 +68,6 @@ export class CircuitComponent {
         this.matrix.values[i][j] = 0;
       }
     }
-  
-    console.log("Matriz generada:", this.matrix.values);
   }
   
 
@@ -82,46 +79,56 @@ export class CircuitComponent {
 
   generatecode() {
 
-    //let token = sessionStorage.getItem('token');
-    let token = this.manager.token;
+    const token = this.manager.token;
+    console.log(token);
+    const decoded = this.decodeTokenPayload(token);
+    const email = decoded?.sub;
+    console.log(email);
 
     if (!this.matrix) {
-      console.error("La matriz no ha sido construida aún.");
+      this.openModal('La matriz no ha sido construida todavía');
       return;
     }
+    
 
     this.service.generatecode(this.outputQubits, token, this.matrix!).subscribe({
       next: (response: any) => {
-        console.log("Todo ha ido bien");
+        if(this.outputQubits > 6){
+          this.creditsService.deductCredit(email).subscribe({
+            next: () => {
+              this.getCredits();
+            },
+            error: (err) => {
+              this.openModal('Error al descontar el crédito');
+            }
+          });
+        }
         this.generatedCode = response.code;
         
       },
       error: (err) => {
-        console.log("Ha habido un error");
-        alert("Ocurrió un error al generar el código.");
+        this.openModal('Error al generar el código');
       }
     });
   }
 
 
-
   saveCode() {
-    if (this.outputQubits < 6) {
-      alert("El número de Qubits de salida debe ser al menos 6 para guardar el circuito.");
+    if (this.outputQubits <= 6) {
+      this.openModal('Error. No se puede guardar un código de 6 créditos o menos');
       return;
     } 
 
     //añadir comprobación pagos que tenga saldo el usuario
 
     if (!this.matrix || !this.generatedCode) {
-      console.warn("No hay matriz o código generado.");
-      alert("Primero debes generar el código.");
+      this.openModal('Primero debes generar el código');
       return;
     }
 
     
     if (!this.circuitName.trim()) {
-      alert("Debes introducir un nombre para el circuito antes de generar el código.");
+      this.openModal('Debes introducir un nombre para el circuito antes de generar el código');
       return;
     }
 
@@ -133,9 +140,8 @@ export class CircuitComponent {
     console.log(email);
 
 
-
     if (!email) {
-      alert("No se pudo obtener el email del token.");
+      this.openModal('Error. No se ha podido obtener el email');
       return;
     } 
 
@@ -151,25 +157,15 @@ export class CircuitComponent {
   
     this.service.saveCodeToDB(circuitToSave).subscribe({
       next: () => {
-        console.log("Circuito guardado con éxito.");
         alert("Circuito guardado correctamente.");
 
-        this.creditsService.deductCredit(email).subscribe({
-          next: () => {
-            console.log("Crédito descontado correctamente");
-            this.getCredits();
-          },
-          error: (err) => {
-            console.error("Error al descontar el crédito.", err);
-            alert("Error al descontar crédito.");
-          }
-        });
+        
 
         this.generatecode();
       },
       error: () => {
-        console.log("Error al guardar el circuito.");
-        alert("Ocurrió un error al guardar el circuito.");
+        this.openModal('Error al guardar el circuito');
+
       }
     });
   }
@@ -195,6 +191,13 @@ private decodeTokenPayload(token: string): any {
   }
 }
 
+openModal(message: string) {
+  this.modalMessage = message;
+  this.showModal = true;
+}
 
+closeModal() {
+  this.showModal = false;
+}
 
 }

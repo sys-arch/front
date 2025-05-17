@@ -27,7 +27,6 @@ export class PaymentsComponent {
   async ngOnInit() {
     this.stripe = await this.stripePromise;
     if (!this.stripe) {
-      console.error("Stripe no se pudo inicializar");
       return;
     }
     this.elements = this.stripe.elements();

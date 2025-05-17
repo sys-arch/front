@@ -20,27 +20,21 @@ export class MyCircuitsComponent implements OnInit {
   
   ngOnInit(): void {
     const token = sessionStorage.getItem('token');
-    console.log("Token recibido desde sessionStorage:", token);  // Verifica el token aquí
 
     if (token) {
       const decoded = this.decodeTokenPayload(token);
-      console.log("Decoded Token:", decoded);  // Verifica el token decodificado
       const email = decoded?.sub;
-      console.log("Email extraído:", email);
 
       this.service.getMyCircuits(email).subscribe({
         next: (response) => {
-          console.log("Respuesta:", response);  // Verifica la respuesta
           this.circuits = response;
           this.loading = false;
         },
         error: (err) => {
-          console.error("Error al recuperar circuitos:", err);  // Detalles del error
           this.loading = false;
         }
       });
     } else {
-      console.error("Token no válido o vacío");
       this.loading = false;
     }
   }
@@ -67,9 +61,15 @@ export class MyCircuitsComponent implements OnInit {
       const decoded = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
       return JSON.parse(decoded);
     } catch (e) {
-      console.error("Error al decodificar el token:", e);
       return null;
     }
+  }
+
+
+  logout(): void {
+    this.manager.token = '';
+    sessionStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
   
 }
