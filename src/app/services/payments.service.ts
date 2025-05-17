@@ -12,13 +12,14 @@ export class PaymentsService {
 
   constructor(private client: HttpClient) {}
 
-  prepay(): Observable<Object> {
-    return this.client.get(`${this.baseUrl}/payments/prepay`, {
+  prepay(credits: number): Observable<Object> {
+    return this.client.post(`${this.baseUrl}/payments/prepay`, { credits }, {
       withCredentials: true,
       observe: "response",
       responseType: "text"
     });
   }
+
 
   confirm(token: string, credits: number): Observable<Object> {
     const headers = new HttpHeaders({

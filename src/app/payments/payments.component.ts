@@ -33,23 +33,24 @@ export class PaymentsComponent {
   }
 
   prepay() {
-    this.paymentsService.prepay(this.matches).subscribe({
-      next: (response: any) => {
-        this.transactionId = response.body; // client_secret
-        this.message = "Introduce los datos de tu tarjeta para completar el pago.";
+  this.paymentsService.prepay(this.matches).subscribe({
 
-        // Montamos Stripe Elements solo si no está ya montado
-        if (this.elements && !this.card) {
-          this.card = this.elements.create("card");
-          this.card.mount("#card-element");
-        }
-      },
-      error: (err) => {
-        this.message = "Error en prepay";
-        console.error(err);
+    next: (response: any) => {
+      this.transactionId = response.body; // client_secret
+      this.message = "Introduce los datos de tu tarjeta para completar el pago.";
+
+      if (this.elements && !this.card) {
+        this.card = this.elements.create("card");
+        this.card.mount("#card-element");
       }
-    });
-  }
+    },
+    error: (err) => {
+      this.message = "Error en prepay";
+      console.error(err);
+    }
+  });
+}
+
 
   async pay() {
     if (!this.stripe || !this.card || !this.transactionId) return;

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CircuitService } from '../services/circuit.service';
+import { CreditsService } from '../services/credits.service';
 import { ManagerService } from '../services/manager.service';
-import { CreditsService } from '../services/credits.service'; 
 import { Matrix } from './Matrix';
 
 
@@ -41,6 +41,7 @@ export class CircuitComponent {
     }
 
     this.creditsService.getUsersCredits(email).subscribe({
+    
       next: (response: any) => {
         console.log("Creditos:" + response.credits)
         this.credits = response.credits;
