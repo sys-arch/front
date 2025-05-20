@@ -52,7 +52,17 @@
                         {{ passwordVisible2 ? 'Ocultar' : 'Mostrar' }}
                     </span>
                 </div>
-                
+
+                <!-- ✅ Mensajes de error dentro del formulario -->
+                <div *ngIf="passwordError" class="error-message">
+                    <small>{{ passwordError }}</small>
+                </div>
+                <div *ngIf="confirmPasswordError" class="error-message">
+                    <small>{{ confirmPasswordError }}</small>
+                </div>
+                <div *ngIf="error" class="error-message">
+                    <small>{{ error }}</small>
+                </div>
 
                 <!-- Botón para enviar el formulario de forma manual -->
                 <button class="btn" type="button" (click)="onSubmit()">Restablecer Contraseña</button>
@@ -69,6 +79,7 @@
     </ng-template>
 </div>
 
+<!-- Botón volver -->
 <div class="back-button-container">
     <button class="back-button" (click)="navigateTo('/login')">Volver</button>
 </div>
