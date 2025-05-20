@@ -13,3 +13,17 @@
   filter: drop-shadow(0 0 15px rgba(0, 153, 255, 0.6));
   opacity: 0.95;
 }
+
+
+/* Ajustes específicos para pantallas pequeñas */
+@media (max-width: 450px), (max-height: 43.75rem) {
+    .register-container {
+        min-width: 28.125rem; /* 450px en rem */
+        min-height: 43.75rem; /* 700px en rem */
+    }
+
+    /* Ajusta la fuente para mejorar legibilidad en pantallas pequeñas */
+    .register-box, .actions, .footer {
+        font-size: 0.875rem; /* 14px */
+    }
+}
