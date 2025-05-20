@@ -12,7 +12,6 @@ import { Matrix } from './Matrix';
   templateUrl: './circuit.component.html',
   styleUrl: './circuit.component.css'
 })
-
 export class CircuitComponent {
   inputQubits: number = 1;
   outputQubits: number = 1;
@@ -22,13 +21,11 @@ export class CircuitComponent {
   credits: number = 0;
   showModal = false;
   modalMessage = ''; 
-  showMatrixModal: boolean = false;
 
   constructor(private service: CircuitService, private manager: ManagerService, private router: Router, private creditsService: CreditsService) { 
     this.inputQubits = 3;
     this.outputQubits = 3;
   }
-
   ngOnInit(): void {
     this.getCredits();
   }
@@ -74,6 +71,7 @@ export class CircuitComponent {
       }
     }
   }
+  
 
   negate(row: number, col: number) {
     if (this.matrix) {
@@ -101,13 +99,16 @@ export class CircuitComponent {
           this.creditsService.deductCredit(email).subscribe({
             next: () => {
               this.getCredits();
+              this.generatedCode = response.code;
+
             },
             error: (err) => {
               this.openModal('Error al descontar el crédito');
             }
           });
+        } else {
+            this.generatedCode = response.code;
         }
-        this.generatedCode = response.code;
         
       },
       error: (err) => {
@@ -116,12 +117,12 @@ export class CircuitComponent {
     });
   }
 
+
   saveCode() {
     if ((this.outputQubits + this.inputQubits) <= 6) {
       this.openModal('Error. No se puede guardar un código de 6 qubits o menos');
       return;
     } 
-
 
     if (!this.matrix || !this.generatedCode) {
       this.openModal('Primero debes generar el código');
@@ -172,34 +173,34 @@ export class CircuitComponent {
     });
   }
 
-  toggleMatrixModal() {
-    this.showMatrixModal = !this.showMatrixModal;
-  }
+  showMatrixModal: boolean = false;
 
-  logout(): void {
-      this.manager.token = '';
-      sessionStorage.removeItem('token');
-      this.router.navigate(['/login']);
+toggleMatrixModal() {
+  this.showMatrixModal = !this.showMatrixModal;
+}
+logout(): void {
+    this.manager.token = '';
+    sessionStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
+private decodeTokenPayload(token: string): any {
+  try {
+    const payload = token.split('.')[1];
+    const decoded = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+    return JSON.parse(decoded);
+  } catch (e) {
+    console.error("Error al decodificar el token:", e);
+    return null;
+  }
+}
 
-  private decodeTokenPayload(token: string): any {
-    try {
-      const payload = token.split('.')[1];
-      const decoded = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
-      return JSON.parse(decoded);
-    } catch (e) {
-      console.error("Error al decodificar el token:", e);
-      return null;
-    }
-  }
+openModal(message: string) {
+  this.modalMessage = message;
+  this.showModal = true;
+}
 
-  openModal(message: string) {
-    this.modalMessage = message;
-    this.showModal = true;
-  }
-
-  closeModal() {
-    this.showModal = false;
-  }
+closeModal() {
+  this.showModal = false;
+}
 
 }
