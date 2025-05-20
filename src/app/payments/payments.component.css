@@ -106,3 +106,26 @@ button:hover {
   .go-to-circuits-btn:hover {
     background-color: #0056b3;
   }
+  .StripeElement {
+  background-color: #121212;
+  color: white;
+  padding: 10px;
+  border: 1px solid #555;
+  border-radius: 0.5rem;
+  width: 100%;
+  min-height: 50px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.StripeElement--focus {
+  border-color: #00ffcc;
+}
+
+.StripeElement--invalid {
+  border-color: #ff4d4f;
+}
+
+.StripeElement--complete {
+  border-color: #00cc66;
+}

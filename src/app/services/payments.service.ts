@@ -27,15 +27,14 @@ export class PaymentsService {
       'Content-Type': 'application/json'
     });
 
-    const body = { credits };
-
-    return this.client.put(`${this.baseUrl}/payments/confirm`, body, {
+    return this.client.put(`${this.baseUrl}/payments/confirm`, credits, {
       headers,
       withCredentials: true,
       observe: "response",
       responseType: "text"
     });
   }
+
 
   pay(token: string): Observable<Object> {
   const headers = new HttpHeaders({
