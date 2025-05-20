@@ -74,10 +74,11 @@ export class CircuitComponent {
   
 
   negate(row: number, col: number) {
-    if (this.matrix) {
-      this.matrix.values[row][col] = this.matrix.values[row][col] === 0 ? 1 : 0;
-    }
+  if (this.matrix && col >= this.inputQubits) {
+    this.matrix.values[row][col] = this.matrix.values[row][col] === 0 ? 1 : 0;
   }
+}
+
 
   generatecode() {
 
@@ -99,13 +100,15 @@ export class CircuitComponent {
           this.creditsService.deductCredit(email).subscribe({
             next: () => {
               this.getCredits();
+              this.generatedCode = response.code;
+
+
             },
             error: (err) => {
               this.openModal('Error al descontar el crédito');
             }
           });
         }
-        this.generatedCode = response.code;
         
       },
       error: (err) => {
