@@ -20,13 +20,13 @@ export class CreditsService {
   constructor(private http: HttpClient, private manager: ManagerService) { }
 
   getUsersCredits(email: string): Observable<Credits> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': email
-    });
-  
-    return this.http.get<Credits>(`${this.baseUrl}/credits/getcredits`, { headers });
-  }
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${this.manager.token}`
+  });
+
+  return this.http.get<Credits>(`${this.baseUrl}/credits/getcredits/${encodeURIComponent(email)}`, { headers });
+}
   
   deductCredit(email: string) {
   const headers = new HttpHeaders({
