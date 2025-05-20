@@ -39,10 +39,8 @@ constructor(private paymentsService: PaymentsService, private cd: ChangeDetector
       this.transactionId = response.body;
       this.message = "Introduce los datos de tu tarjeta para completar el pago.";
 
-      // Fuerza detección de cambios para que *ngIf dibuje el div
       this.cd.detectChanges();
 
-      // Espera a que Angular renderice el DOM
       await new Promise(resolve => setTimeout(resolve, 0));
 
       const div = document.getElementById("card-element");

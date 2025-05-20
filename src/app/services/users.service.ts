@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ManagerService } from './manager.service';
 import { environment } from '../../environments/environment';
+import { ManagerService } from './manager.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,6 @@ export class UserService {
 
   constructor(private http: HttpClient, private router: Router, public manager: ManagerService) {}
 
-
-  // Login
   login(user: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put(`${this.baseUrl}/users/login`, user, { headers }).pipe(
@@ -24,13 +22,10 @@ export class UserService {
     );
   }
 
-
-  // Guardar token
   saveToken(token: string): void {
     sessionStorage.setItem('token', token);
   }
 
-  // Metodo para registrar un usuario
   register(
     email: string,
     password1: string,
@@ -54,25 +49,19 @@ export class UserService {
     return this.http.post(`${this.baseUrl}/users/register`, info, { headers });
 }
 
-  
-
-  // Obtener token
   getToken(): string | null {
     return sessionStorage.getItem('token');
   }
 
-  // Verificar autenticación
   isAuthenticated(): boolean {
     return this.getToken() !== null;
   }
 
-  // Cerrar sesión
   logout(): void {
     sessionStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
 
-  // Validar token JWT
   validateToken(): Observable<any> {
     const url = `${this.baseUrl}/tokens/validarToken`;
     const headers = new HttpHeaders({
@@ -81,14 +70,12 @@ export class UserService {
     return this.http.get(url, { headers });
   }
 
-  // Restablecer contraseña (POST con token, nueva pwd y confirmación)
   resetPassword(data: { token: string, newPassword: string, confirmPassword: string }): Observable<any> {
     return this.http.post(`${this.baseUrl}/pwd/reset`, data, {
       responseType: 'text'
     });
   }
 
-  // Solicitar reenvío del enlace de restablecimiento
   forgotPassword(email: string): Observable<any> {
     const body = new HttpParams().set('email', email);
     return this.http.post(`${this.baseUrl}/pwd/forgot`, body, {
@@ -96,7 +83,6 @@ export class UserService {
     });
   }
 
-  // Validar que el token recibido es válido (GET)
   validateResetToken(token: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/pwd/reset?token=${token}`);
   }
