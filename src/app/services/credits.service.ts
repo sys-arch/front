@@ -33,7 +33,7 @@ export class CreditsService {
     'Authorization': `Bearer ${this.manager.token}`
   });
 
-  return this.http.post(`${this.baseUrl}/deductcredits/${email}?amount=1`, null, {
+  return this.http.post(`${this.baseUrl}/credits/deductcredits/${email}?amount=1`, null, {
     headers,
     responseType: 'text' as 'json'
   });
