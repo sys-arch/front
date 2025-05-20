@@ -116,12 +116,10 @@ export class CircuitComponent {
 
 
   saveCode() {
-    if (this.outputQubits <= 6) {
-      this.openModal('Error. No se puede guardar un código de 6 créditos o menos');
+    if ((this.outputQubits + this.inputQubits) <= 6) {
+      this.openModal('Error. No se puede guardar un código de 6 qubits o menos');
       return;
     } 
-
-    //añadir comprobación pagos que tenga saldo el usuario
 
     if (!this.matrix || !this.generatedCode) {
       this.openModal('Primero debes generar el código');
