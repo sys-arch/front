@@ -50,7 +50,24 @@ constructor(private paymentsService: PaymentsService, private cd: ChangeDetector
         if (this.card) {
           this.card.unmount();
         }
-        this.card = this.elements.create("card");
+        //this.card = this.elements.create("card");
+      const style = {
+          base: {
+            color: '#ffffff', // texto blanco
+            fontSize: '16px',
+            '::placeholder': {
+              color: '#cccccc' // placeholder gris claro
+            }
+          },
+          invalid: {
+            color: '#ff4d4f' // texto rojo para errores
+          }
+        };
+
+        this.card = this.elements.create("card", { style });
+
+
+
         this.card.mount("#card-element");
       } else {
         this.message = "Error: no se encontró el div para Stripe.";
