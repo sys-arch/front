@@ -2,7 +2,6 @@
 
 <!-- Contenedor principal -->
 <div class="login-container">
-    <!-- Si el token es válido, mostramos el formulario -->
     <div *ngIf="isValidToken; else invalidToken">
         <div class="login-box">
             <h2>Restablecer Contraseña</h2>
@@ -53,7 +52,6 @@
                     </span>
                 </div>
 
-                <!-- ✅ Mensajes de error dentro del formulario -->
                 <div *ngIf="passwordError" class="error-message">
                     <small>{{ passwordError }}</small>
                 </div>

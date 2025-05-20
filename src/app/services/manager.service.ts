@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ManagerService {
-
   token: string;
-
   constructor() {
     this.token = sessionStorage.getItem('token') || ''; // <- evita null
   }

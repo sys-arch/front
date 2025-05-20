@@ -17,7 +17,6 @@ export class MyCircuitsComponent implements OnInit {
 
   constructor(private service: CircuitService, private router: Router, private manager: ManagerService) {}
 
-  
   ngOnInit(): void {
     const token = sessionStorage.getItem('token');
 
@@ -39,14 +38,11 @@ export class MyCircuitsComponent implements OnInit {
     }
   }
   
-
-  // Método para mostrar código desde el desplegable
   onSelectCircuit(event: Event) {
     const selectedCode = (event.target as HTMLSelectElement).value;
     this.selectedCode = selectedCode;
   }
 
-  // Método alternativo si usas la lista de <li> (por si quieres mantenerlo para debug)
   showCode(code: string) {
     this.selectedCode = code;
   }
