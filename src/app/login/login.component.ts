@@ -25,6 +25,11 @@ export class LoginComponent {
   passwordInvalid = false;
   domainInvalid = false;
   errorMessage: string = '';
+  loginAttempts = 0;
+  isBlocked = false;
+  blockTimeout: any;
+  blockDuration = 2 * 60 * 1000; // 2 minutos en milisegundos
+
   @ViewChild('loginForm') loginForm!: NgForm;
   
   private readonly emailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -47,42 +52,74 @@ export class LoginComponent {
   }
 
    // Método de inicio de sesión que llama al servicio `UserService`
-  loginAttempt(): void {
-    this.resetValidationStates();
-    this.onEmailChange();
-    this.validatePassword();
+loginAttempt(): void {
+  if (this.isBlocked) {
+    console.log('Demasiados intentos. Inténtalo de nuevo en unos minutos.');
+    return; // NO hacemos loginFailed = true
+  }
 
-    if (!this.emailInvalid && !this.passwordInvalid && !this.domainInvalid) {
-      const user = {
-        email: this.username,
-        pwd: this.password
-      };
-  
-  
-      this.userservice.login(user).subscribe({
-        next: (response) => {
-          if (response.token) {
-            this.userservice.saveToken(response.token);
-            console.log("Token guardado correctamente");
-            this.manager.token = response.token;
-            sessionStorage.setItem('token', response.token);
-            this.router.navigate(['/circuit']);
-          } else {
-            this.loginFailed = true;
-            console.error('No se recibió un token de autenticación.');
-          }
-        },
-        error: (error) => {
-          console.error("Error en el login:", error);
-          this.loginFailed = true;
+  this.resetValidationStates();
+  this.onEmailChange();
+  this.validatePassword();
+
+  if (!this.emailInvalid && !this.passwordInvalid && !this.domainInvalid) {
+    const user = {
+      email: this.username,
+      pwd: this.password
+    };
+
+    this.userservice.login(user).subscribe({
+      next: (response) => {
+        if (response.token) {
+          this.resetLoginAttempts(); // ✅ Resetea el contador en login exitoso
+          this.userservice.saveToken(response.token);
+          console.log("Token guardado correctamente");
+          this.manager.token = response.token;
+          sessionStorage.setItem('token', response.token);
+          this.router.navigate(['/circuit']);
+        } else {
+          console.error('No se recibió un token de autenticación.');
+          this.handleFailedAttempt(); // ✅ Cuenta fallo
         }
-      });
-  
+      },
+      error: (error) => {
+        console.error("Error en el login:", error);
+        this.handleFailedAttempt(); // ✅ Cuenta fallo
+      }
+    });
+
+  } else {
+    this.handleFailedAttempt(); // ✅ Cuenta fallo de validación
+  }
+}
+
+  private handleFailedAttempt(): void {
+    this.loginAttempts++;
+    if (this.loginAttempts < 3) {
+      this.loginFailed = true; // solo antes del bloqueo
+    }
+
+    if (this.loginAttempts >= 3) {
+      this.isBlocked = true;
+      console.log('Usuario bloqueado por demasiados intentos fallidos. Esperando 2 minutos.');
+      this.blockTimeout = setTimeout(() => {
+        this.isBlocked = false;
+        this.loginAttempts = 0;
+        console.log('Fin del bloqueo. El usuario puede volver a intentar iniciar sesión.');
+      }, this.blockDuration);
     } else {
-      this.loginFailed = true;
+      this.errorMessage = 'Inicio de sesión no exitoso. Verifique sus credenciales.';
     }
   }
-  
+private resetLoginAttempts(): void {
+  this.loginAttempts = 0;
+  this.isBlocked = false;
+  if (this.blockTimeout) {
+    clearTimeout(this.blockTimeout);
+  }
+}
+
+
   navigateToResetPassword(): void {
     this.router.navigate(['/contrasena-olvidada']);
   }
