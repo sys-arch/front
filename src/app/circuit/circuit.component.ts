@@ -32,6 +32,7 @@ export class CircuitComponent {
 
   getCredits() {
     const token = this.manager.token;
+    console.log(token)
     const decoded = this.decodeTokenPayload(token);
     const email = decoded?.sub;
 
