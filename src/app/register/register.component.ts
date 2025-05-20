@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../services/users.service';
 
-// Expresión regular para la validación de la contraseña
 const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#+\-_ç<>])[A-Za-z\d@$!%*?&#+\-_ç<>]{8,}$/;
 const PASSWORD_ERROR_MESSAGE =
   'La contraseña debe tener al menos 8 caracteres, una letra mayúscula, un número y un carácter especial.';
@@ -15,7 +14,6 @@ const PASSWORD_ERROR_MESSAGE =
 })
 export class RegisterComponent {
 
-  // Propiedades de los campos del formulario
   nombre: string = '';
   apellido: string = '';
   apellido2: string = '';
@@ -45,7 +43,6 @@ export class RegisterComponent {
     private readonly userService: UserService
   ) {}
 
-  // Validación de la fecha de alta (debe ser menor o igual a la fecha actual)
   validateFechaAlta(): void {
     this.fechaInvalid = false;
     const alta = new Date(this.fechaAlta);
@@ -55,13 +52,11 @@ export class RegisterComponent {
     }
   }
 
-  // Validación del formato del correo electrónico
   validateEmail(): void {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     this.emailInvalid = !emailPattern.test(this.email);
   }
 
-  // Validación de la contraseña (expresión regular)
   validarPassword(): boolean {
     if (RegExp(PASSWORD_REGEX).exec(this.password1)) {
       this.passwordError = '';
@@ -72,7 +67,6 @@ export class RegisterComponent {
     }
   }
 
-  // Validación de que las contraseñas coincidan
   validarConfirmPassword(): boolean {
     if (this.password1 === this.password2) {
       this.confirmPasswordError = '';
@@ -83,30 +77,24 @@ export class RegisterComponent {
     }
   }
 
-  // Cambiar la visibilidad de la contraseña 1
   togglePasswordVisibility1(): void {
     this.passwordVisible1 = !this.passwordVisible1;
     const passwordInput1 = document.getElementById('password1') as HTMLInputElement;
     passwordInput1.type = this.passwordVisible1 ? 'text' : 'password';
   }
 
-  // Cambiar la visibilidad de la contraseña 2
   togglePasswordVisibility2(): void {
     this.passwordVisible2 = !this.passwordVisible2;
     const passwordInput2 = document.getElementById('password2') as HTMLInputElement;
     passwordInput2.type = this.passwordVisible2 ? 'text' : 'password';
   }
 
-  // Manejo del submit del formulario
   onSubmit(): void {
-   
-    // Verificar si el correo electrónico tiene formato válido
     if (this.emailInvalid) {
       this.openModal('Correo electrónico invalido');
       return;
     }
 
-    // Validación de la contraseña
     if (!this.validarPassword()) {
       this.openModal('Contraseña inválida');
       return;
@@ -115,13 +103,11 @@ export class RegisterComponent {
       return;
     }
 
-    // Verificar si hay campos obligatorios vacíos
     if (!this.nombre || !this.apellido || !this.apellido2 || !this.email || !this.password1 || !this.password2) {
       this.errorMessage = 'Todos los campos obligatorios deben estar llenos.';
       return;
     }
 
-    // Formatear la fecha de alta si es necesario
     let formattedDate = this.fechaAlta ? this.fechaAlta.toString().split('T')[0] : '';
     // Llamada al servicio para registrar el usuario
     this.userService.register(this.email, this.password1, this.password2, this.nombre, this.apellido, this.apellido2)
@@ -135,7 +121,6 @@ export class RegisterComponent {
       });
   }
 
-  // Método para redirigir a diferentes rutas
   navigateTo(route: string): void {
     this.isLoading = true;
     setTimeout(() => {
@@ -144,14 +129,13 @@ export class RegisterComponent {
     }, 1000);
   }
 
-  // Método para mover el foco al siguiente campo
   focusNext(nextFieldIf: string): void {
     const nextElement = document.getElementById(nextFieldIf);
     if (nextElement) {
       nextElement.focus();
     }
   }
-
+  
   openModal(message: string) {
     this.modalMessage = message;
     this.showModal = true;
